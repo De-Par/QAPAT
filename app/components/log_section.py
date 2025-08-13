@@ -5,10 +5,10 @@ from tkinter import ttk
 class LogSection:
     def __init__(self, parent, app):
         self.log_area = None
-
         self.app = app
 
         self.frame = ttk.LabelFrame(parent, text="Processing Log", style="Section.TLabelframe")
+
         # Expand to fill available space above status bar but with MAXIMUM HEIGHT
         self.frame.grid(row=3, column=0, columnspan=2, sticky="nsew", padx=5, pady=5)
         self.frame.grid_columnconfigure(0, weight=1)

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from app.style import font
 
 
 class ExitConfirmationDialog:
@@ -55,7 +56,7 @@ class ExitConfirmationDialog:
             wraplength=self.width,
             justify='center',
             background=self.theme['primary_bg'],
-            font=('Arial', 12, 'bold')
+            font=('Arial', font['exit_window'], 'bold')
         )
         message_label.pack(side='left', fill='x', expand=True)
         
@@ -66,7 +67,7 @@ class ExitConfirmationDialog:
                 text='Note: Stopping the session will terminate any running processes!',
                 wraplength=self.width,
                 justify='center',
-                font=('Arial', 12),
+                font=('Arial', font['exit_window']),
                 background=self.theme['primary_bg'],
                 foreground=self.theme.get('warning_fg', "#ff6600")
             )

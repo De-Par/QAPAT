@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import Text, Button, Frame, Scrollbar
 from app.data import help_text
+from app.style import font
 
 
 class HelpDialog:
@@ -41,7 +42,7 @@ class HelpDialog:
             frame,
             wrap='word',
             yscrollcommand=scrollbar.set,
-            font=('Arial', 14),
+            font=('Arial', font['help_window']),
             padx=10,
             pady=10,
             bg=self.theme['help_bg'],

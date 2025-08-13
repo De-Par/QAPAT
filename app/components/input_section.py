@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext, messagebox
 from app.utils import log_message, configure_scrollbar_colors, configure_text_widget_theme
+from app.style import font
 import os
 
 
@@ -46,7 +47,7 @@ class InputSection:
             height=3,
             highlightcolor=self.app.current_theme['text_widget_highlight'],
             wrap='none',
-            font=('TkDefaultFont', 10),
+            font=('TkDefaultFont', font['dri_field_input']),
             bg=self.app.current_theme['text_widget_bg'],
             fg=self.app.current_theme['text_widget_fg'],
             insertbackground=self.app.current_theme['text_widget_fg'],

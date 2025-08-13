@@ -1,4 +1,5 @@
 import tkinter as tk
+from app.style import font
 
 
 class Tooltip:
@@ -31,7 +32,7 @@ class Tooltip:
                 padx=8,
                 pady=4,
                 foreground=theme.get('tooltip_fg', "#000000"),
-                font=('Arial', 12),
+                font=('Arial', font['tooltip_label']),
                 justify='left'
             )
             self.tooltip_label.pack()

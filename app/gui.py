@@ -48,7 +48,7 @@ class QATAP(tk.Tk):
         self.log_visible_var = tk.BooleanVar(value=True)
 
         # Log font settings
-        self.log_font_size = 12
+        self.log_font_size = font['log_section']
 
         # Create main container
         self.main_container = ttk.Frame(self)
@@ -265,13 +265,13 @@ class QATAP(tk.Tk):
             'Section.TLabelframe.Label',
             background=theme['primary_bg'],
             foreground=theme['text_fg'],
-            font=('Arial', 10, 'bold')
+            font=('Arial', font['frame_label'], 'bold')
         )
 
         # Configure button styles
         self.style.configure(
             'TButton',
-            font=('Arial', 10),
+            font=('Arial', font['main_button']),
             padding=6,
             background=theme['button_bg'],
             foreground=theme['button_fg'],
@@ -306,7 +306,7 @@ class QATAP(tk.Tk):
             'TCheckbutton',
             background=theme['primary_bg'],
             foreground=theme['checkbox_fg'],
-            font=('Arial', 12),
+            font=('Arial', font['options_section']),
             indicatorcolor=theme['checkbox_bg'],
             indicatorrelief='flat',
             indicatordiameter=12
@@ -485,6 +485,9 @@ class QATAP(tk.Tk):
 
             # Focus on first input
             self.input_section.ref_driver_text.focus()
+
+            # Reset log font size
+            self.log_section.update_font_size(font['log_section'])
 
         except Exception as e:
             log_message(self.log_section.log_area, f'Reset error: {str(e)}', 'ERROR', self.current_theme)
