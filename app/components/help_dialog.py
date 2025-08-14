@@ -6,10 +6,11 @@ from app.style import font
 
 class HelpDialog:
     """Help dialog component for displaying application documentation"""
-    
-    def __init__(self, parent, theme):
+    def __init__(self, parent, theme, sw, sh):
         self.parent = parent
         self.theme = theme
+        self.sw = sw
+        self.sh = sh
         self.help_window = None
         
     def show(self):
@@ -21,7 +22,7 @@ class HelpDialog:
 
         self.help_window = tk.Toplevel(self.parent)
         self.help_window.title('Help Documentation')
-        self.help_window.geometry('600x500')
+        self.help_window.geometry(f'{int(0.4 * self.sw)}x{int(0.7 * self.sh)}')
         self.help_window.protocol('WM_DELETE_WINDOW', self.destroy)
 
         # Create frame

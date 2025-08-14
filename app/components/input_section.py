@@ -5,6 +5,9 @@ from app.style import font
 import os
 
 
+label_width = 16
+
+
 class InputSection:
     def __init__(self, parent, app):
         self.app_entry = None
@@ -33,7 +36,7 @@ class InputSection:
         frame.grid_columnconfigure(1, weight=1)
 
         # Label
-        lbl = ttk.Label(frame, padding=4, text=label_text, width=12, anchor='center')
+        lbl = ttk.Label(frame, padding=4, text=label_text, width=label_width, anchor='center')
         lbl.grid(row=0, column=0, padx=(0, 10), sticky='w')
 
         # Text frame for scrollable area
@@ -44,7 +47,7 @@ class InputSection:
         # Create a text widget for multiple paths
         text_widget = scrolledtext.ScrolledText(
             text_frame,
-            height=3,
+            height=2,
             highlightcolor=self.app.current_theme['text_widget_highlight'],
             wrap='none',
             font=('TkDefaultFont', font['dri_field_input']),
@@ -105,7 +108,7 @@ class InputSection:
         frame.grid_columnconfigure(1, weight=1)
 
         # Label
-        lbl = ttk.Label(frame, padding=4, text=label_text, width=12, anchor='center')
+        lbl = ttk.Label(frame, padding=4, text=label_text, width=label_width, anchor='center')
         lbl.grid(row=0, column=0, padx=(0, 10), sticky='w')
 
         # Define type of field

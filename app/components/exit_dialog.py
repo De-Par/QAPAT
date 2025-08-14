@@ -5,13 +5,13 @@ from app.style import font
 
 class ExitConfirmationDialog:
     """Exit confirmation dialog with smart session detection"""
-    def __init__(self, parent, theme=None):
+    def __init__(self, parent, theme, sw, sh):
         self.parent = parent
         self.yes_callback = None
         self.theme = theme or {}
         self.dialog = None
-        self.width = 400
-        self.height = 200
+        self.width = int(0.3 * sw)
+        self.height = int(0.2 * sh)
         
     def show(self, message, is_processing=False):
         """Show exit confirmation dialog"""
@@ -45,7 +45,7 @@ class ExitConfirmationDialog:
             title_frame,
             background=self.theme['primary_bg'],
             text='⚠️',
-            font=('Arial', 30)
+            font=('Arial', 32)
         )
         warning_label.pack(side='left', padx=(0, 10))
         

@@ -10,15 +10,30 @@ from .components import (
     ButtonSection, StatusBar, Tooltip, ExitConfirmationDialog, HelpDialog
 )
 
+
+def get_screen_dim():
+    """Get width and height of screen"""
+    root = tk.Tk()
+    root.withdraw()  
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    root.destroy() 
+    return screen_width, screen_height
+
+
+# Screen dimensions
+screen_w, screen_h = get_screen_dim()
+
+
 # Minimal dimensions for application
 dimensions = {
     'with_log': {
-        'min_w': 500,
-        'min_h': 700
+        'min_w': int(0.3 * screen_w),
+        'min_h': screen_h // 2
     },
     'without_log': {
-        'min_w': 500,
-        'min_h': 580
+        'min_w': int(0.3 * screen_w),
+        'min_h': int((screen_h // 2) * 0.85)
     }
 }
 
@@ -122,11 +137,11 @@ class QATAP(tk.Tk):
     
     def create_exit_dialog(self):
         """Initialize exit confirmation dialog"""
-        self.exit_dialog = ExitConfirmationDialog(self, self.current_theme)
+        self.exit_dialog = ExitConfirmationDialog(self, self.current_theme, screen_w, screen_h)
     
     def create_help_dialog(self):
         """Initialize help dialog"""
-        self.help_dialog = HelpDialog(self, self.current_theme)
+        self.help_dialog = HelpDialog(self, self.current_theme, screen_w, screen_h)
     
     def on_closing(self):
         """Handle application closing with confirmation dialog"""
@@ -309,7 +324,7 @@ class QATAP(tk.Tk):
             font=('Arial', font['options_section']),
             indicatorcolor=theme['checkbox_bg'],
             indicatorrelief='flat',
-            indicatordiameter=12
+            indicatordiameter=12,
         )
 
         self.style.map(

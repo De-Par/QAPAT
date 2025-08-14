@@ -93,7 +93,7 @@ if __name__ == "__main__":
     project_dir = Path(__file__).resolve().parent
     venv_dir = project_dir / '.venv'
     req_file = project_dir / 'requirements.txt'
-    icon_file = project_dir / 'res' / 'ico' / 'app.icns'
+    icon_file = project_dir / 'res' / 'ico' / '64x64_app.png'
     entry_point = project_dir / 'run.py'
     build_dir = project_dir / 'build'
     app_name = 'QAPAT'

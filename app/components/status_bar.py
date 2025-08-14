@@ -7,7 +7,7 @@ class StatusBar:
         self.app = app
         self.frame = ttk.Frame(parent)
         # Pin to bottom using pack - always stays at bottom of window with FIXED HEIGHT
-        self.frame.pack(side='bottom', fill='x', padx=5, pady=0)
+        self.frame.pack(side='bottom', fill='x', padx=10, pady=10)
         self.frame.grid_columnconfigure(0, weight=1)
 
         # Status bar
