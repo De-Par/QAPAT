@@ -159,7 +159,7 @@ class InputSection:
                 text_widget.configure(state='normal')
 
         except Exception as e:
-            log_message(self.app.log_section.log_area, f'Error selecting directory: {str(e)}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Error selecting directory: {str(e)}", 'ERROR', self.app.current_theme)
 
     def clear_text_widget(self, text_widget):
         """Clear all content in a text widget"""
@@ -182,7 +182,7 @@ class InputSection:
                 self.app_entry.insert(0, file_path)
 
         except Exception as e:
-            log_message(self.app.log_section.log_area, f'Error selecting application: {str(e)}','ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Error selecting application: {str(e)}",'ERROR', self.app.current_theme)
 
     def browse_output_directory(self):
         """Open directory dialog to select output directory and check permissions"""
@@ -207,14 +207,14 @@ class InputSection:
                     # If we get here, permissions are good
                     self.output_entry.delete(0, tk.END)
                     self.output_entry.insert(0, dir_path)
-                    log_message(self.app.log_section.log_area, f'Output directory set: {dir_path}', 'INFO', self.app.current_theme)
+                    log_message(self.app.log_section.log_area, f"Output directory set: {dir_path}", 'INFO', self.app.current_theme)
 
                 except (OSError, PermissionError) as e:
-                    log_message(self.app.log_section.log_area, f'Cannot create output folder in {dir_path}: {str(e)}', 'ERROR', self.app.current_theme)
-                    tk.messagebox.showerror('Permission Error', f'Cannot create output folder in the selected directory.\nPlease choose a directory where you have write permissions.')
+                    log_message(self.app.log_section.log_area, f"Cannot create output folder in {dir_path}: {str(e)}", 'ERROR', self.app.current_theme)
+                    tk.messagebox.showerror('Permission Error', 'Cannot create output folder in the selected directory.\nPlease choose a directory where you have write permissions.')
 
         except Exception as e:
-            log_message(self.app.log_section.log_area, f'Error selecting output directory: {str(e)}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Error selecting output directory: {str(e)}", 'ERROR', self.app.current_theme)
 
     def get_ref_dirs(self):
         """Get reference driver directories"""
@@ -261,14 +261,14 @@ class InputSection:
             return False
 
         elif not os.path.exists(app_path):
-            log_message(self.app.log_section.log_area, f'Application path does not exist: {app_path}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Application path does not exist: {app_path}", 'ERROR', self.app.current_theme)
             self.app.status_bar.set_status('Error: Application not found')
             self.app_entry.focus()
             tk.messagebox.showerror('Input Error', 'The specified application executable does not exist')
             return False
 
         elif not os.access(app_path, os.X_OK):
-            log_message(self.app.log_section.log_area, f'Application is not executable: {app_path}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Application is not executable: {app_path}", 'ERROR', self.app.current_theme)
             self.app.status_bar.set_status('Error: Application not executable')
             self.app_entry.focus()
             tk.messagebox.showerror('Input Error', 'The specified application is not executable')
@@ -282,14 +282,14 @@ class InputSection:
             return False
 
         elif not os.path.exists(output_path):
-            log_message(self.app.log_section.log_area, f'Output directory does not exist: {output_path}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Output directory does not exist: {output_path}", 'ERROR', self.app.current_theme)
             self.app.status_bar.set_status('Error: Output directory not found')
             self.output_entry.focus()
             tk.messagebox.showerror('Input Error', 'The specified output directory does not exist')
             return False
 
         elif not os.access(output_path, os.W_OK):
-            log_message(self.app.log_section.log_area, f'Output directory is not writable: {output_path}', 'ERROR', self.app.current_theme)
+            log_message(self.app.log_section.log_area, f"Output directory is not writable: {output_path}", 'ERROR', self.app.current_theme)
             self.app.status_bar.set_status('Error: Output directory not writable')
             self.output_entry.focus()
             tk.messagebox.showerror('Input Error', 'The specified output directory is not writable')

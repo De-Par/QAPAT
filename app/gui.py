@@ -11,33 +11,6 @@ from .components import (
 )
 
 
-def get_screen_dim():
-    """Get width and height of screen"""
-    root = tk.Tk()
-    root.withdraw()  
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-    root.destroy() 
-    return screen_width, screen_height
-
-
-# Screen dimensions
-screen_w, screen_h = get_screen_dim()
-
-
-# Minimal dimensions for application
-dimensions = {
-    'with_log': {
-        'min_w': int(0.3 * screen_w),
-        'min_h': screen_h // 2
-    },
-    'without_log': {
-        'min_w': int(0.3 * screen_w),
-        'min_h': int((screen_h // 2) * 0.85)
-    }
-}
-
-
 class QATAP(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -47,11 +20,6 @@ class QATAP(tk.Tk):
         self.help_dialog = None
         self.processing_active = None
         self.log_queue = queue.Queue()
-
-        self.title('Quality And Performance Assessment Tool')
-        min_w, min_h = dimensions['with_log']['min_w'], dimensions['with_log']['min_h']
-        self.geometry(f"{min_w}x{min_h}")
-        self.minsize(min_w, min_h)
 
         # Initialize theme
         self.current_theme = light_theme
@@ -120,6 +88,10 @@ class QATAP(tk.Tk):
         # Ensure initial layout configuration
         self.configure_layout()
 
+        self.title('Quality And Performance Assessment Tool')
+        #self.geometry(f"{self.winfo_reqwidth()}x{self.winfo_reqheight()}")
+        self.update_window_size()
+
     def configure_layout(self):
         """Configure the layout to ensure proper component positioning"""
         # Ensure log section expands to fill available space above status bar
@@ -137,11 +109,11 @@ class QATAP(tk.Tk):
     
     def create_exit_dialog(self):
         """Initialize exit confirmation dialog"""
-        self.exit_dialog = ExitConfirmationDialog(self, self.current_theme, screen_w, screen_h)
+        self.exit_dialog = ExitConfirmationDialog(self, self.current_theme)
     
     def create_help_dialog(self):
         """Initialize help dialog"""
-        self.help_dialog = HelpDialog(self, self.current_theme, screen_w, screen_h)
+        self.help_dialog = HelpDialog(self, self.current_theme)
     
     def on_closing(self):
         """Handle application closing with confirmation dialog"""
@@ -403,19 +375,22 @@ class QATAP(tk.Tk):
     def update_window_size(self):
         """Adjust window size based on log visibility"""
         self.update_idletasks()
-        current_width = self.winfo_width()
-        current_height = self.winfo_height()
+        req_w = self.winfo_reqwidth()
+        req_h = self.winfo_reqheight()
+        cur_w = self.winfo_width()
+        cur_h = self.winfo_height()
 
+        min_w = int(req_w * 0.7)
         if self.log_visible:
-            min_width = dimensions['with_log']['min_w']
-            min_height = dimensions['with_log']['min_h']
+            min_h = int(req_h * 0.7)
         else:
-            min_width = dimensions['without_log']['min_w']
-            min_height = dimensions['without_log']['min_h']
-            current_height = min_height
-        
-        self.minsize(min_width, min_height)
-        self.geometry(f"{current_width}x{current_height}")
+            min_h = cur_h = req_h
+
+        if cur_w < min_w: cur_w = min_w
+        if cur_h < min_h: cur_h = min_h
+
+        self.minsize(min_w, min_h)
+        self.geometry(f"{cur_w}x{cur_h}")
 
     def validate_data(self):
         """Validate user inputs before processing"""
@@ -441,12 +416,12 @@ class QATAP(tk.Tk):
 
         # Update UI state
         self.status_bar.set_status('Processing...')
-        log_message(self.log_section.log_area, f'Starting analysis with {app_path}', 'INFO', self.current_theme)
-        log_message(self.log_section.log_area, f'Reference driver directories: {', '.join(ref_dirs)}', 'INFO', self.current_theme)
-        log_message(self.log_section.log_area, f'Distorted driver directories: {', '.join(dis_dirs)}', 'INFO', self.current_theme)
-        log_message(self.log_section.log_area, f'Output directory: {output_path}', 'INFO', self.current_theme)
-        log_message(self.log_section.log_area, f'Selected options: {', '.join(options) if options else 'None'}', 'INFO', self.current_theme)
-        log_message(self.log_section.log_area, f'Delay time: {delay_time}s, Bench time: {bench_time}s', 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Starting analysis with {app_path}", 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Reference driver directories: {', '.join(ref_dirs)}", 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Distorted driver directories: {', '.join(dis_dirs)}", 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Output directory: {output_path}", 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Selected options: {', '.join(options) if options else 'None'}", 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Delay time: {delay_time}s, Bench time: {bench_time}s", 'INFO', self.current_theme)
 
         # Set processing flag
         self.processing_active = True
@@ -505,7 +480,7 @@ class QATAP(tk.Tk):
             self.log_section.update_font_size(font['log_section'])
 
         except Exception as e:
-            log_message(self.log_section.log_area, f'Reset error: {str(e)}', 'ERROR', self.current_theme)
+            log_message(self.log_section.log_area, f"Reset error: {str(e)}", 'ERROR', self.current_theme)
             self.status_bar.set_status('Error during reset')
 
     def show_help(self):
@@ -540,4 +515,4 @@ class QATAP(tk.Tk):
         if self.help_dialog:
             self.help_dialog.update_theme(self.current_theme)
 
-        log_message(self.log_section.log_area, f'Switched to {self.theme_mode} theme', 'INFO', self.current_theme)
+        log_message(self.log_section.log_area, f"Switched to {self.theme_mode} theme", 'INFO', self.current_theme)

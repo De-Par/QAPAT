@@ -17,10 +17,10 @@ class BuildEnvironment:
     def create(self) -> None:
         """Create a clean virtual environment"""
         if self.env_dir.exists():
-            print(f'Removing existing environment: {self.env_dir}')
+            print(f"Removing existing environment: {self.env_dir}")
             shutil.rmtree(self.env_dir)
 
-        print(f'Creating virtual environment at: {self.env_dir}')
+        print(f"Creating virtual environment at: {self.env_dir}")
         venv.create(self.env_dir, with_pip=True)
         self.upgrade_pip()
 
@@ -31,13 +31,13 @@ class BuildEnvironment:
             subprocess.check_call([self.pip, 'install', '--upgrade', 'pip'])
 
         except subprocess.CalledProcessError as e:
-            print(f'Failed to upgrade pip: {e}')
+            print(f"Failed to upgrade pip: {e}")
             sys.exit(1)
 
     def install_dependencies(self, requirements: Path) -> None:
         """Install packages from requirements.txt"""
         if not requirements.exists():
-            print(f'{requirements} not found. Skipping dependencies.')
+            print(f"{requirements} not found. Skipping dependencies.")
             return
 
         print('Installing dependencies...')
@@ -47,13 +47,13 @@ class BuildEnvironment:
             subprocess.check_call([self.pip, 'install', 'pyinstaller'])
 
         except subprocess.CalledProcessError as e:
-            print(f'Dependency installation failed: {e}')
+            print(f"Dependency installation failed: {e}")
             sys.exit(1)
 
     def run_pyinstaller(self, output, entry_script, name, icon=None) -> None:
         """Build executable using PyInstaller in the virtual environment"""
         if output.exists():
-            print(f'Removing existing build directory: {output}')
+            print(f"Removing existing build directory: {output}")
             shutil.rmtree(output)
 
         dist_path = output / 'dist'
@@ -81,10 +81,10 @@ class BuildEnvironment:
         try:
             subprocess.check_call(cmd)
             app_path = dist_path / name
-            print(f'\nBuild successful! Executable: {str(app_path)}{'.exe' if os.name == 'nt' else ''}')
+            print(f"\nBuild successful! Executable: {str(app_path)}{'.exe' if os.name == 'nt' else ''}")
 
         except subprocess.CalledProcessError as e:
-            print(f'Build failed: {e}')
+            print(f"Build failed: {e}")
             sys.exit(1)
 
 

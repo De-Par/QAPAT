@@ -6,11 +6,9 @@ from app.style import font
 
 class HelpDialog:
     """Help dialog component for displaying application documentation"""
-    def __init__(self, parent, theme, sw, sh):
+    def __init__(self, parent, theme):
         self.parent = parent
         self.theme = theme
-        self.sw = sw
-        self.sh = sh
         self.help_window = None
         
     def show(self):
@@ -22,7 +20,6 @@ class HelpDialog:
 
         self.help_window = tk.Toplevel(self.parent)
         self.help_window.title('Help Documentation')
-        self.help_window.geometry(f'{int(0.4 * self.sw)}x{int(0.7 * self.sh)}')
         self.help_window.protocol('WM_DELETE_WINDOW', self.destroy)
 
         # Create frame
@@ -84,13 +81,16 @@ class HelpDialog:
         )
         close_btn.pack(pady=10)
 
-        # Center window
+        # Setup dimension of window
         self.help_window.update_idletasks()
         width = self.help_window.winfo_width()
         height = self.help_window.winfo_height()
+        self.help_window.minsize(width // 2, height)
+
+        # Center window
         x = (self.parent.winfo_screenwidth() // 2) - (width // 2)
         y = (self.parent.winfo_screenheight() // 2) - (height // 2)
-        self.help_window.geometry(f'+{x}+{y}')
+        self.help_window.geometry(f"+{x}+{y}")
         
     def destroy(self):
         """Destroy the help window"""
@@ -141,7 +141,7 @@ class HelpDialog:
                         )
             except Exception as e:
                 # Log error but don't crash the application
-                print(f'Error updating help window theme: {e}')
+                print(f"Error updating help window theme: {e}")
                 
     def exists(self):
         """Check if help window exists and is visible"""

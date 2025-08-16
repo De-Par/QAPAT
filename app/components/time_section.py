@@ -28,12 +28,12 @@ def validate_integer(value, minimum, maximum):
 
 def delay_validation_wrapper(value):
     """Create wrapper function for delay_time field"""
-    return validate_integer(value=value, minimum=0, maximum=60)
+    return validate_integer(value=value, minimum=0, maximum=180)
 
 
 def bench_validation_wrapper(value):
     """Create wrapper function for bench_time field"""
-    return validate_integer(value=value, minimum=1, maximum=60)
+    return validate_integer(value=value, minimum=1, maximum=180)
 
 
 class TimeSection:

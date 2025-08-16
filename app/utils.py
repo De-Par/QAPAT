@@ -58,8 +58,8 @@ def log_message(log_area, message, level='INFO', theme=None):
     log_area.tag_configure(tag, foreground=color)
 
     # Insert message
-    log_area.insert(tk.END, f'{timestamp} {prefix} ', tag)
-    log_area.insert(tk.END, f'{message}\n')
+    log_area.insert(tk.END, f"{timestamp} {prefix} ", tag)
+    log_area.insert(tk.END, f"{message}\n")
 
     log_area.configure(state='disabled')
     log_area.see(tk.END)  # Auto-scroll to bottom
@@ -78,7 +78,7 @@ def run_analysis(
     try:
         # Apply delay time if specified
         if delay_time > 0:
-            _queue_log_message(log_queue, f'Waiting {delay_time} seconds before starting analysis...', 'INFO', theme)
+            _queue_log_message(log_queue, f"Waiting {delay_time} seconds before starting analysis...", 'INFO', theme)
             time.sleep(delay_time)
         
         # Simulate processing steps
@@ -88,19 +88,19 @@ def run_analysis(
         # Verify driver directories
         for path in ref_dirs:
             if not os.path.exists(path):
-                _queue_log_message(log_queue, f'Reference driver directory not found: {path}', 'ERROR', theme)
+                _queue_log_message(log_queue, f"Reference driver directory not found: {path}", 'ERROR', theme)
             else:
-                _queue_log_message(log_queue, f'Using reference driver: {path}', 'INFO', theme)
+                _queue_log_message(log_queue, f"Using reference driver: {path}", 'INFO', theme)
 
         for path in dis_dirs:
             if not os.path.exists(path):
-                _queue_log_message(log_queue, f'Distorted driver directory not found: {path}', 'ERROR', theme)
+                _queue_log_message(log_queue, f"Distorted driver directory not found: {path}", 'ERROR', theme)
             else:
-                _queue_log_message(log_queue, f'Using distorted driver: {path}', 'INFO', theme)
+                _queue_log_message(log_queue, f"Using distorted driver: {path}", 'INFO', theme)
 
         # Verify application
         if not os.path.exists(app_path):
-            _queue_log_message(log_queue, f'Application not found: {app_path}', 'ERROR', theme)
+            _queue_log_message(log_queue, f"Application not found: {app_path}", 'ERROR', theme)
             return
 
         elif not os.access(app_path, os.X_OK):
@@ -108,35 +108,35 @@ def run_analysis(
             if hasattr(os, 'stat') and hasattr(os.stat(app_path), 'st_mode'):
                 import stat
                 if not (os.stat(app_path).st_mode & stat.S_IXUSR):
-                    _queue_log_message(log_queue, f'Application not executable: {app_path}', 'ERROR', theme)
+                    _queue_log_message(log_queue, f"Application not executable: {app_path}", 'ERROR', theme)
                     return
             else:
-                _queue_log_message(log_queue, f'Application not executable: {app_path}', 'ERROR', theme)
+                _queue_log_message(log_queue, f"Application not executable: {app_path}", 'ERROR', theme)
                 return
 
-        _queue_log_message(log_queue, f'Launching application: {os.path.basename(app_path)}', 'INFO', theme)
+        _queue_log_message(log_queue, f"Launching application: {os.path.basename(app_path)}", 'INFO', theme)
         time.sleep(1)
 
         # Verify output directory
         if not os.path.exists(output_path):
-            _queue_log_message(log_queue, f'Output directory not found: {output_path}', 'ERROR', theme)
+            _queue_log_message(log_queue, f"Output directory not found: {output_path}", 'ERROR', theme)
             return
 
         elif not os.access(output_path, os.W_OK):
-            _queue_log_message(log_queue, f'Output directory not writable: {output_path}', 'ERROR', theme)
+            _queue_log_message(log_queue, f"Output directory not writable: {output_path}", 'ERROR', theme)
             return
 
         else:
-            _queue_log_message(log_queue, f'Using output directory: {output_path}', 'INFO', theme)
+            _queue_log_message(log_queue, f"Using output directory: {output_path}", 'INFO', theme)
 
         # Create results directory
         results_dir = os.path.join(output_path, 'results')
         try:
             os.makedirs(results_dir, exist_ok=True)
-            _queue_log_message(log_queue, f'Results directory ready: {results_dir}', 'INFO', theme)
+            _queue_log_message(log_queue, f"Results directory ready: {results_dir}", 'INFO', theme)
 
         except Exception as e:
-            _queue_log_message(log_queue, f'Cannot create results directory: {str(e)}', 'ERROR', theme)
+            _queue_log_message(log_queue, f"Cannot create results directory: {str(e)}", 'ERROR', theme)
             return
 
         # Simulate analysis steps
@@ -149,11 +149,11 @@ def run_analysis(
         _queue_log_message(log_queue, 'Calculating quality metrics...', 'INFO', theme)
         for i in range(1, 6):
             time.sleep(0.5)
-            _queue_log_message(log_queue, f'Metric {i}/5 calculated', 'INFO', theme)
+            _queue_log_message(log_queue, f"Metric {i}/5 calculated", 'INFO', theme)
 
         # Apply bench time if specified
         if bench_time > 0:
-            _queue_log_message(log_queue, f'Running benchmark for {bench_time} seconds...', 'INFO', theme)
+            _queue_log_message(log_queue, f"Running benchmark for {bench_time} seconds...", 'INFO', theme)
             time.sleep(bench_time)
             _queue_log_message(log_queue, 'Benchmark completed', 'INFO', theme)
 
@@ -167,26 +167,7 @@ def run_analysis(
             _queue_log_message(log_queue, 'Creating visualizations...', 'INFO', theme)
             time.sleep(1.2)
             _queue_log_message(log_queue, 'Visualizations created', 'INFO', theme)
-
-            # Generate sample plot
-            try:
-                import matplotlib.pyplot as plt
-                import numpy as np
-                plt.figure(figsize=(6, 4))
-                x = np.linspace(0, 10, 100)
-                y = np.sin(x)
-                plt.plot(x, y)
-                plt.title('Quality Analysis')
-                plt.xlabel('Time')
-                plt.ylabel('Quality Metric')
-                plt.grid(True)
-                plot_path = os.path.join(results_dir, 'quality_plot.png')
-                plt.savefig(plot_path)
-                plt.close()
-                _queue_log_message(log_queue, f'Saved quality plot to: {plot_path}', 'INFO', theme)
-
-            except ImportError:
-                _queue_log_message(log_queue, 'Matplotlib not installed. Skipping plot generation.', 'WARNING', theme)
+            # Generate sample plot...
 
         if 'merge' in options:
             _queue_log_message(log_queue, 'Merging results...', 'INFO', theme)
@@ -200,11 +181,11 @@ def run_analysis(
 
         # Generate random quality score
         score = round(random.uniform(0.75, 0.99), 3)
-        _queue_log_message(log_queue, f'Analysis complete! Quality score: {score}', 'INFO', theme)
-        status_var.set(f'Analysis complete - Quality: {score}')
+        _queue_log_message(log_queue, f"Analysis complete! Quality score: {score}", 'INFO', theme)
+        status_var.set(f"Analysis complete - Quality: {score}")
 
     except Exception as e:
-        _queue_log_message(log_queue, f'Processing error: {str(e)}', 'ERROR', theme)
+        _queue_log_message(log_queue, f"Processing error: {str(e)}", 'ERROR', theme)
         status_var.set('Error during processing')
 
     finally:

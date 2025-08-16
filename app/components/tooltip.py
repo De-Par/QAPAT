@@ -76,7 +76,7 @@ class Tooltip:
         self.tooltip_label.config(text=self.current_text)
         
         # Position tooltip
-        self.tooltip_window.geometry(f'+{x}+{y}')
+        self.tooltip_window.geometry(f"+{x}+{y}")
         self.tooltip_window.deiconify()
         
         # Ensure tooltip is visible on screen
@@ -111,7 +111,7 @@ class Tooltip:
         x = max(0, x)
         y = max(0, y)
         
-        self.tooltip_window.geometry(f'+{x}+{y}')
+        self.tooltip_window.geometry(f"+{x}+{y}")
     
     def hide_tooltip(self):
         """Hide the tooltip"""
