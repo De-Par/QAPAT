@@ -53,7 +53,7 @@ class TimeSection:
         self.create_time_input_fields()
 
     def create_time_input_fields(self):
-        """Create delay time and bench time input fields"""
+        """Create delay time and profiling time input fields"""
         # Delay time field
         delay_frame = ttk.Frame(self.frame)
         delay_frame.pack(fill='x', padx=10, pady=5)
@@ -106,7 +106,7 @@ class TimeSection:
             return 0
 
     def get_bench_time(self):
-        """Get bench time value"""
+        """Get profiling time value"""
         try:
             return int(self.bench_time_var.get() or '1')
         except ValueError:

@@ -151,7 +151,7 @@ def run_analysis(
             time.sleep(0.5)
             _queue_log_message(log_queue, f"Metric {i}/5 calculated", 'INFO', theme)
 
-        # Apply bench time if specified
+        # Apply profiling time if specified
         if bench_time > 0:
             _queue_log_message(log_queue, f"Running benchmark for {bench_time} seconds...", 'INFO', theme)
             time.sleep(bench_time)

@@ -90,7 +90,7 @@ class BuildEnvironment:
 
 if __name__ == "__main__":
 
-    project_dir = Path(__file__).resolve().parent
+    project_dir = Path(__file__).resolve().parent.parent
     venv_dir = project_dir / '.venv'
     req_file = project_dir / 'requirements.txt'
     icon_file = project_dir / 'res' / 'ico' / '64x64_app.png'
